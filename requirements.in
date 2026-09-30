@@ -1,0 +1,22 @@
+# Web Framework & Server
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+
+# Database & Migrations
+alembic
+asyncpg
+pyodbc
+SQLAlchemy[asyncio]
+
+# Authentication & Security
+azure-identity
+bcrypt
+passlib[bcrypt]
+python-jose[cryptography]
+
+# Utilities & Data Formats
+PyYAML
+requests
+typing-inspection
