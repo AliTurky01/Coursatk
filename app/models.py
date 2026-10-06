@@ -1,6 +1,9 @@
+from typing import Literal
+
 from sqlalchemy import Column, Integer, String, Text, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from .database import Base
+from pydantic import BaseModel
 
 class Department(Base):
     __tablename__ = "departments"
@@ -19,6 +22,15 @@ class User(Base):
     first_name = Column("fn", String(100), nullable=False)
     last_name = Column("ln", String(100), nullable=False)
     department_id = Column("dep_id", Integer, ForeignKey("departments.id", ondelete="SET NULL"))
+
+class UserCreate(BaseModel):
+    email: str
+    password: str
+    first_name: str
+    last_name: str
+    department_id: int | None = None
+    role :Literal["student", "production"]
+
 
 class UserRole(Base):
     __tablename__ = "user_roles"

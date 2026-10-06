@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,APIRouter
 import os
 from sqlalchemy import create_engine
 
@@ -9,10 +9,14 @@ from sqlalchemy.orm import sessionmaker
 from fastapi import Depends, FastAPI
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
-from pydantic import BaseModel
+from app.routers import users,departments,courses
 from .database import Base,SessionLocal
 from .models import Department, User, UserRole, Employee, Student, Course, Instruction, Enroll
+
 app = FastAPI()
+app.include_router(users.router)
+# app.include_router(courses.router)
+# app.include_router(departments.router)
 
 
 
@@ -24,23 +28,8 @@ async def get_db():
 db_dependency = Annotated[AsyncSession, Depends(get_db)]
 
 
-class UserCreate(BaseModel):
-    email: str
-    password: str
-    first_name: str
-    last_name: str
-    department_id: int | None = None
 
 
 
-@app.post("/users/")
-async def create_user(user: UserCreate, db: db_dependency):
-    user = User(**user.model_dump())
-    db.add(user)
-    await db.commit()
-    await db.refresh(user)
-    return user
 
-@app.get("/")
-def root():
-    return {"message": "Coursatk API is running"}
+
