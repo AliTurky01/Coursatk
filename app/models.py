@@ -25,11 +25,11 @@ class User(Base):
 
 class UserCreate(BaseModel):
     email: str
-    password: str
+    hashed_password: str
     first_name: str
     last_name: str
     department_id: int | None = None
-    role :Literal["student", "production"]
+    role :Literal["student", "employee","admin"]
 
 
 class UserRole(Base):
