@@ -12,7 +12,7 @@ SQLAlchemy[asyncio]
 
 # Authentication & Security
 azure-identity
-bcrypt
+bcrypt<5
 passlib[bcrypt]
 python-jose[cryptography]
 

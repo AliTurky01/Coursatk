@@ -24,15 +24,15 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 @router.post("/")
 async def create_user(user: UserCreate, db: db_dependency):
     hashed_password = pwd_context.hash(user.hashed_password)
-    new_user = User(**user.model_dump(exclude="password"),
-                    hashed_password=hashed_password)
+    user_data = user.model_dump(exclude={"hashed_password", "role"})
+    new_user = User(**user_data, password=hashed_password)
     db.add(new_user)
     
     await db.flush()
 
     # 5. Create role
     user_role = UserRole(
-        user_id=user.id,
+        user_id=new_user.id,
         role=user.role
     )
     db.add(user_role)
